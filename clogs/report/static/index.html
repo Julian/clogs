@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>clogs</title>
+
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:100" type="text/css">
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="js/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.flot.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/jquery.flot.selection.min.js"></script>
+    <script language="javascript" type="text/javascript" src="js/clogs.js"></script>
+    <script language="javascript" type="text/javascript" src="js/clogs.json.js"></script>
+  <head>
+
+<body>
+
+  <header>
+    <h1 id="logo">clogs</h1>
+  </header>
+
+  <section id="clog-graph">
+    <header>
+      <h1>Coverage Log</h1>
+
+      <div id="packages">
+        <span class="button">packages</span>
+      </div>
+    </header>
+
+    <div id="graph"></div>
+  </section>
+
+<script type="text/javascript" charset="utf-8">
+  bind_graph_to("#graph");
+</script>
+
+</body>
+</html>

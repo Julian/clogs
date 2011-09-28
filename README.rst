@@ -21,4 +21,12 @@ Requirements
 
 Requirements should be handled by pip. They are:
 
-* coverage.py
+* coveragepy
+* GitPython (git repository support)
+
+License
+-------
+
+clogs is licensed under the MIT License (found in this directory).
+
+flot is copyright (c) 2007-2009 IOLA and Ole Laursen under the same license.

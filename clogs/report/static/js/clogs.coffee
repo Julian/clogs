@@ -37,7 +37,7 @@ relative_date = (date) ->
 $.plot.formatDate = (date, formatString, monthNames) -> relative_date(date)
 
 
-window.coverage_data = (clogs) ->
+coverage_data = (clogs) ->
     data = {}
 
     for clog in clogs

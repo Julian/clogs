@@ -7,7 +7,8 @@
  */
 
 body {
-    font: 16px Raleway, Helvetica, sans-serif;
+    background: #D2D3D4;
+    font: 100 16px Raleway, Helvetica Neue, Helvetica, sans-serif;
 }
 
 body > header {
@@ -55,17 +56,20 @@ body > header {
     color: #196674;
 }
 
+#content {
+    width: 960px;
+    background: #FFFFFF;
+    margin: 30px auto 0px auto;
+}
+
 #logo {
-    font: 44px Raleway, Helvetica, sans-serif;
+    font: 100 44px Raleway, Helvetica Neue, Helvetica, sans-serif;
     display: inline;
     padding: 50px;
 }
 
 #clog-graph {
-    width: 930px;
-    height: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    padding: 60px;
 }
 
 #clog-graph header {
@@ -73,21 +77,21 @@ body > header {
 }
 
 #clog-graph header h1 {
-    font: 32px Raleway, Helvetica, sans-serif;
+    font: 100 32px Raleway, Helvetica Neue, Helvetica, sans-serif;
     letter-spacing: 3px;
     text-align: center;
 }
 
 #graph {
-    width: 900px;
-    height: 400px;
+    width: 800px;
+    height: 350px;
     margin-left: auto;
     margin-right: auto;
 }
 
 #graph .tickLabel,
 #graph .legendLabel {
-    font: 100 11px Helvetica, sans-serif;
+    font: 11px Helvetica Neue, Helvetica, sans-serif;
 }
 
 #graph .yAxis .tickLabel {

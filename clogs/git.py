@@ -4,11 +4,11 @@ import git
 
 
 class GitClogger(object):
-    def __init__(self, directory="", repo_dir=None):
+    def __init__(self, directory=".", repo_dir=None):
         super(GitClogger, self).__init__()
 
-        if repo is None:
-            repo = directory
+        if repo_dir is None:
+            repo_dir = directory
 
         self.directory = directory
         self.repo = git.Repo(repo_dir).config_reader()  # read-only access

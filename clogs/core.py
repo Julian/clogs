@@ -1,9 +1,11 @@
+import errno
 import shutil
 import json
 import os.path
 import time
 
 from coverage.report import Reporter
+from coverage.control import coverage  # I was warned. This might break.
 
 
 DEFAULT_DIR = "clogs"
@@ -22,10 +24,12 @@ class ClogReporter(Reporter):
     def __init__(self, coverage, clogger, ignore_errors=False):
         super(ClogReporter, self).__init__(coverage, ignore_errors)
 
+        coverage.load()
+
         self.clogger = clogger
         self.directory = self.clogger.directory
 
-        self.clogs = self._load_clogs(directory)
+        self.clogs = self._load_clogs()
         self.branches = coverage.data.has_arcs()
 
     def coverage_info(self, cu):
@@ -38,25 +42,29 @@ class ClogReporter(Reporter):
                 "missing" : analysis.numbers.n_missing,}
 
         if self.branches:
-            info.update(branches=nums.n_branches,
-                        missing_branches=nums.n_missing_branches)
+            info.update(branches=analysis.numbers.n_branches,
+                        missing_branches=analysis.numbers.n_missing_branches)
 
         return info
 
     def report(self, morfs, config=None):
         self.find_code_units(morfs, config)
-        units = [self.coverage_info(cu) for cu in self.code_units]
+        coverage = [self.coverage_info(cu) for cu in self.code_units]
 
-        # XXX : Use the time of coverage, not time of the report
-        metadata = {"date" : time.time() * 1000,  # javascript needs milisecs
-                    "coverage" : units,
-                    "total" : len(units),}
+        # Using the time of coverage, not report time, so look at modify time
+        coverage_date = os.path.getmtime(self.coverage.data.filename)
+
+        metadata = {"date" : int(coverage_date * 1000),  # js needs miliseconds
+                    "coverage" : coverage,
+                    "total" : len(coverage),}
+
+        return metadata
 
     def _load_clogs(self):
         try:
             with open(os.path.join(self.directory, JSON_CLOGS_FILE)) as clogs:
                 js_clogs = clogs.read()
-        except OSError as e:
+        except IOError as e:
             if e.errno == errno.ENOENT:
                 return []
             raise
@@ -66,7 +74,13 @@ class ClogReporter(Reporter):
 
     def _write_clogs(self):
         with open(os.path.join(self.directory, JSON_CLOGS_FILE), "w") as f:
-            f.write(JSON_CLOGS_TEMPLATE.format(clogs=json.dumps(self.clogs))
+            f.write(JSON_CLOGS_TEMPLATE.format(clogs=json.dumps(self.clogs)))
+
+    def init(self):
+        """
+        Initialize a clogs directory if one does not exist.
+
+        """
 
     def write(self):
         static = os.path.join(self.directory, "static")

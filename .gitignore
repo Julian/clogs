@@ -12,6 +12,7 @@ MANIFEST
 .coverage
 coverage
 htmlcov
+htmlclogs
 
 _trial_temp
 

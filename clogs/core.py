@@ -61,8 +61,8 @@ class ClogReporter(Reporter):
                 return []
             raise
         else:
-            lsplit, clogs, rsplit = js_clogs.partition("{clogs}")
-            self.clogs = json.loads(clogs.lsplit(lsplit).rsplit(rsplit))
+            lstrip, clogs, rstrip = js_clogs.partition("{clogs}")
+            self.clogs = json.loads(clogs.lstrip(lstrip).rstrip(rstrip))
 
     def _write_clogs(self):
         with open(os.path.join(self.directory, JSON_CLOGS_FILE), "w") as f:

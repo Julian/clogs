@@ -43,9 +43,10 @@ coverage_data = (clogs) ->
     for clog in clogs
         date = clog["date"]
 
-        for file, coverage of clog["coverage"]
-            data[file] = [] if not data[file]?
-            data[file].push([date, coverage])
+        for file in clog["coverage"]
+            name = file["name"]
+            data[name] = [] if not data[name]?
+            data[name].push([date, parseInt(file["percent_coverage"])])
 
     {label : lbl, data : dta} for lbl, dta of data
 

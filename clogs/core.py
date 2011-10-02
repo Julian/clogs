@@ -10,7 +10,7 @@ from coverage.control import coverage  # I was warned. This might break.
 
 DEFAULT_DIR = "clogs"
 JSON_CLOGS_FILE = "clogs.json.js"
-JSON_CLOGS_TEMPLATE = "var json_clogs = {clogs};"
+JSON_CLOGS_TEMPLATE = "var json_clogs = '{clogs}';\n"
 
 
 class ClogReporter(Reporter):
@@ -19,7 +19,7 @@ class ClogReporter(Reporter):
 
     """
 
-    STATIC_DIR = "report/static"
+    STATIC_DIR = "static"
 
     def __init__(self, coverage, clogger, ignore_errors=False):
         super(ClogReporter, self).__init__(coverage, ignore_errors)
@@ -29,14 +29,13 @@ class ClogReporter(Reporter):
         self.clogger = clogger
         self.directory = self.clogger.directory
 
-        self.clogs = self._load_clogs()
+        self.clogs = []
         self.branches = coverage.data.has_arcs()
 
     def coverage_info(self, cu):
         analysis = self.coverage._analyze(cu)
 
-        info = {"numbers" : analysis.numbers,
-                "name" : cu.name,
+        info = {"name" : cu.name,
                 "percent_coverage" : analysis.numbers.pc_covered_str,
                 "statements" : analysis.numbers.n_statements,
                 "missing" : analysis.numbers.n_missing,}
@@ -47,20 +46,22 @@ class ClogReporter(Reporter):
 
         return info
 
-    def report(self, morfs, config=None):
+    def report(self, morfs, config):
         self.find_code_units(morfs, config)
         coverage = [self.coverage_info(cu) for cu in self.code_units]
 
         # Using the time of coverage, not report time, so look at modify time
         coverage_date = os.path.getmtime(self.coverage.data.filename)
 
-        metadata = {"date" : int(coverage_date * 1000),  # js needs miliseconds
+        new_clog = {"date" : int(coverage_date * 1000),  # js needs miliseconds
                     "coverage" : coverage,
                     "total" : len(coverage),}
 
-        return metadata
+        self.clogs = self.load_clogs()
+        self.clogs.append(new_clog)
+        self._write_clogs()
 
-    def _load_clogs(self):
+    def load_clogs(self):
         try:
             with open(os.path.join(self.directory, JSON_CLOGS_FILE)) as clogs:
                 js_clogs = clogs.read()
@@ -70,7 +71,7 @@ class ClogReporter(Reporter):
             raise
         else:
             lstrip, clogs, rstrip = js_clogs.partition("{clogs}")
-            self.clogs = json.loads(clogs.lstrip(lstrip).rstrip(rstrip))
+            return json.loads(clogs.lstrip(lstrip).rstrip(rstrip))
 
     def _write_clogs(self):
         with open(os.path.join(self.directory, JSON_CLOGS_FILE), "w") as f:
@@ -82,7 +83,7 @@ class ClogReporter(Reporter):
 
         """
 
-    def write(self):
-        static = os.path.join(self.directory, "static")
-        shutil.copytree(self.STATIC_DIR, static)
-        self._write_clogs()
+        # all the CS files should be precompiled to JS files
+        ignore = shutil.ignore_patterns("*.coffee")
+        static = os.path.join(os.path.dirname(__file__), self.STATIC_DIR)
+        shutil.copytree(static, self.directory, ignore=ignore)

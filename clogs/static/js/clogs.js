@@ -1,5 +1,5 @@
 (function() {
-  var EPOCHS, MONTHS, options, relative_date;
+  var EPOCHS, MONTHS, coverage_data, options, relative_date;
   EPOCHS = [["second", 1000], ["minute", 60 * 1000], ["hour", 60 * 60 * 1000], ["day", 24 * 60 * 60 * 1000], ["month", 30.4 * 24 * 60 * 60 * 1000], ["year", 12 * 30.4 * 24 * 60 * 60 * 1000]];
   MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   relative_date = function(date) {
@@ -28,19 +28,20 @@
   $.plot.formatDate = function(date, formatString, monthNames) {
     return relative_date(date);
   };
-  window.coverage_data = function(clogs) {
-    var clog, coverage, data, date, dta, file, lbl, _i, _len, _ref, _results;
+  coverage_data = function(clogs) {
+    var clog, data, date, dta, file, lbl, name, _i, _j, _len, _len2, _ref, _results;
     data = {};
     for (_i = 0, _len = clogs.length; _i < _len; _i++) {
       clog = clogs[_i];
       date = clog["date"];
       _ref = clog["coverage"];
-      for (file in _ref) {
-        coverage = _ref[file];
-        if (!(data[file] != null)) {
-          data[file] = [];
+      for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+        file = _ref[_j];
+        name = file["name"];
+        if (!(data[name] != null)) {
+          data[name] = [];
         }
-        data[file].push([date, coverage]);
+        data[name].push([date, parseInt(file["percent_coverage"])]);
       }
     }
     _results = [];

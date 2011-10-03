@@ -1,1 +1,0 @@
-../../clogs/static/js/clogs.js

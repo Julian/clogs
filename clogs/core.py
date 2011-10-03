@@ -28,8 +28,6 @@ class ClogReporter(Reporter):
 
         self.clogger = clogger
         self.directory = self.clogger.directory
-
-        self.clogs = []
         self.branches = coverage.data.has_arcs()
 
     def coverage_info(self, cu):
@@ -57,9 +55,9 @@ class ClogReporter(Reporter):
                     "coverage" : coverage,
                     "total" : len(coverage),}
 
-        self.clogs = self.load_clogs()
-        self.clogs.append(new_clog)
-        self._write_clogs()
+        clogs = self.load_clogs()
+        clogs.append(new_clog)
+        self._write_clogs(clogs)
 
     def load_clogs(self):
         try:
@@ -70,12 +68,12 @@ class ClogReporter(Reporter):
                 return []
             raise
         else:
-            lstrip, clogs, rstrip = js_clogs.partition("{clogs}")
-            return json.loads(clogs.lstrip(lstrip).rstrip(rstrip))
+            lstrip, _, rstrip = JSON_CLOGS_TEMPLATE.partition("{clogs}")
+            return json.loads(js_clogs.lstrip(lstrip).rstrip(rstrip))
 
-    def _write_clogs(self):
+    def _write_clogs(self, clogs=()):
         with open(os.path.join(self.directory, JSON_CLOGS_FILE), "w") as f:
-            f.write(JSON_CLOGS_TEMPLATE.format(clogs=json.dumps(self.clogs)))
+            f.write(JSON_CLOGS_TEMPLATE.format(clogs=json.dumps(clogs)))
 
     def init(self):
         """

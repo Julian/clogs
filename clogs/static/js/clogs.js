@@ -63,8 +63,12 @@
       labelMargin: 30,
       markings: []
     },
+    legend: {
+      container: "#graph-legend",
+      noColumns: 3
+    },
     selection: {
-      mode: "x"
+      mode: "xy"
     },
     series: {
       lines: {
@@ -72,16 +76,18 @@
       },
       points: {
         show: true
+      },
+      threshold: {
+        below: 95,
+        color: "#E65042"
       }
     },
     xaxis: {
       mode: "time",
       monthNames: MONTHS,
-      tickLength: 5,
-      timeformat: "%b %d"
+      tickLength: 5
     },
     yaxis: {
-      min: 0,
       max: 100,
       position: "right"
     }

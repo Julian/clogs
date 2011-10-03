@@ -56,6 +56,16 @@ body > header {
     color: #196674;
 }
 
+.tickLabel,
+.legendLabel {
+    font: 11px Helvetica Neue, Helvetica, sans-serif;
+    padding: 0px 30px 10px 30px;
+}
+
+.yAxis .tickLabel {
+    text-align: right ! important;
+}
+
 #content {
     width: 960px;
     background: #FFFFFF;
@@ -89,16 +99,11 @@ body > header {
     margin-right: auto;
 }
 
-#graph .tickLabel,
-#graph .legendLabel {
-    font: 11px Helvetica Neue, Helvetica, sans-serif;
+#graph-legend > table {
+    margin: 40px auto 0px auto;
 }
 
-#graph .yAxis .tickLabel {
-    text-align: right ! important;
-}
-
-#packages {
+#settings {
     float: right;
     margin-top: -28px;
 }

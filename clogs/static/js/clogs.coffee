@@ -50,7 +50,9 @@ coverage_data = (clogs) ->
 
     {label : lbl, data : dta} for lbl, dta of data
 
-options = {
+
+options = (legend_selector) -> {
+
     colors : ["#0A3A4A", "#196674", "#33A6B2", "#9AC836", "#D0E64B"]
 
     grid : {
@@ -62,7 +64,7 @@ options = {
     }
 
     legend : {
-        container : "#graph-legend"
+        container : legend_selector
         noColumns : 3
     }
 
@@ -98,6 +100,35 @@ options = {
 }
 
 
-window.bind_graph_to = (selector) ->
+make_graph = (selector) ->
     data = $.parseJSON(json_clogs)
-    $.plot($(selector), coverage_data(data), options)
+    $.plot($(selector), coverage_data(data), options("#graph-legend"))
+
+
+SLIDE_DURATION = 500
+
+
+slide = (slider, slide_in, slide_over, width) ->
+    $(slide_in).css("width", width)
+
+    shift = width - 60  # XXX: Hey cool a magic constant.
+
+    $(slider).click( ->
+        if $(slide_in).is(":visible")
+
+            $(slide_over).animate({
+                left : "+=#{shift}"
+            })
+            $(slide_in).hide(SLIDE_DURATION)
+        else
+            $(slide_in).show(SLIDE_DURATION)
+            $(slide_over).animate({
+                left : "-=#{shift}"
+            })
+    )
+
+
+$(document).ready( ->
+    make_graph("#graph")
+    slide("#settings-toggle", "#settings", "#content", 450)
+)

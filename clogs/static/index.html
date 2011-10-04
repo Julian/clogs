@@ -16,7 +16,7 @@
     <script language="javascript" type="text/javascript" src="js/jquery.flot.threshold.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/clogs.js"></script>
     <script language="javascript" type="text/javascript" src="clogs.json.js"></script>
-  <head>
+  </head>
 
 <body>
 
@@ -24,24 +24,27 @@
     <h1 id="logo">clogs</h1>
   </header>
 
-  <div id="content">
-    <section id="clog-graph">
-      <header>
-        <h1>Coverage Log</h1>
+  <div id="wrapper">
+    <div id="content">
+        <header>
+          <h1>Coverage Log</h1>
+          <button id="settings-toggle" type="button">settings</button>
+        </header>
 
-        <div id="settings">
-          <span class="button">settings</span>
-        </div>
+        <section id="graph"></section>
+        <footer id="graph-legend"></footer>
+
+    </div>
+
+    <aside id="settings">
+      <header>
+        <h1>Settings</h1>
       </header>
 
-      <figure><div id="graph"></div><figcaption id="graph-legend"></figcaption></figure>
+      <p>Settings go here.</p>
 
-    </section>
+    </aside>
   </div>
-
-<script type="text/javascript" charset="utf-8">
-  bind_graph_to("#graph");
-</script>
 
 </body>
 </html>

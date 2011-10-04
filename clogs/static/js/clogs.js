@@ -1,5 +1,5 @@
 (function() {
-  var EPOCHS, MONTHS, coverage_data, options, relative_date;
+  var EPOCHS, MONTHS, SLIDE_DURATION, coverage_data, make_graph, options, relative_date, slide;
   EPOCHS = [["second", 1000], ["minute", 60 * 1000], ["hour", 60 * 60 * 1000], ["day", 24 * 60 * 60 * 1000], ["month", 30.4 * 24 * 60 * 60 * 1000], ["year", 12 * 30.4 * 24 * 60 * 60 * 1000]];
   MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   relative_date = function(date) {
@@ -54,47 +54,72 @@
     }
     return _results;
   };
-  options = {
-    colors: ["#0A3A4A", "#196674", "#33A6B2", "#9AC836", "#D0E64B"],
-    grid: {
-      borderWidth: 0,
-      clickable: true,
-      hoverable: true,
-      labelMargin: 30,
-      markings: []
-    },
-    legend: {
-      container: "#graph-legend",
-      noColumns: 3
-    },
-    selection: {
-      mode: "xy"
-    },
-    series: {
-      lines: {
-        show: true
+  options = function(legend_selector) {
+    return {
+      colors: ["#0A3A4A", "#196674", "#33A6B2", "#9AC836", "#D0E64B"],
+      grid: {
+        borderWidth: 0,
+        clickable: true,
+        hoverable: true,
+        labelMargin: 30,
+        markings: []
       },
-      points: {
-        show: true
+      legend: {
+        container: legend_selector,
+        noColumns: 3
       },
-      threshold: {
-        below: 95,
-        color: "#E65042"
+      selection: {
+        mode: "xy"
+      },
+      series: {
+        lines: {
+          show: true
+        },
+        points: {
+          show: true
+        },
+        threshold: {
+          below: 95,
+          color: "#E65042"
+        }
+      },
+      xaxis: {
+        mode: "time",
+        monthNames: MONTHS,
+        tickLength: 5
+      },
+      yaxis: {
+        max: 100,
+        position: "right"
       }
-    },
-    xaxis: {
-      mode: "time",
-      monthNames: MONTHS,
-      tickLength: 5
-    },
-    yaxis: {
-      max: 100,
-      position: "right"
-    }
+    };
   };
-  window.bind_graph_to = function(selector) {
+  make_graph = function(selector) {
     var data;
     data = $.parseJSON(json_clogs);
-    return $.plot($(selector), coverage_data(data), options);
+    return $.plot($(selector), coverage_data(data), options("#graph-legend"));
   };
+  SLIDE_DURATION = 500;
+  slide = function(slider, slide_in, slide_over, width) {
+    var shift;
+    $(slide_in).css("width", width);
+    shift = width - 60;
+    return $(slider).click(function() {
+      if ($(slide_in).is(":visible")) {
+        $(slide_over).animate({
+          left: "+=" + shift
+        });
+        return $(slide_in).hide(SLIDE_DURATION);
+      } else {
+        $(slide_in).show(SLIDE_DURATION);
+        return $(slide_over).animate({
+          left: "-=" + shift
+        });
+      }
+    });
+  };
+  $(document).ready(function() {
+    make_graph("#graph");
+    return slide("#settings-toggle", "#settings", "#content", 450);
+  });
 }).call(this);

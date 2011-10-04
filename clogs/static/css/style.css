@@ -17,7 +17,7 @@ body > header {
     padding: 15px;
 }
 
-.button {
+button {
     background: #EEEEEE;
     background: -webkit-gradient(linear, left top, left bottom,
                                  color-stop(0%,#F7F7F7),
@@ -39,8 +39,10 @@ body > header {
     line-height: 13px;
     color: #969696;
     font-weight: bold;
+    text-decoration: none;
 }
-.button:hover {
+
+button:hover {
     background: #efefef;
     background: -webkit-gradient(linear, left top, left bottom,
                                  color-stop(0%,#fbfbfb),
@@ -48,7 +50,8 @@ body > header {
     background: -moz-linear-gradient(center top, #fbfbfb 0%, #efefef 100%);
     color: #33A6B2;
 }
-.button:active {
+
+button:active {
     background: #f2f2f2;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(100%,#e9e9e9));
     background: -moz-linear-gradient(center top, #f2f2f2 0%, #e9e9e9 100%);
@@ -59,17 +62,14 @@ body > header {
 .tickLabel,
 .legendLabel {
     font: 11px Helvetica Neue, Helvetica, sans-serif;
+}
+
+.legendLabel {
     padding: 0px 30px 10px 30px;
 }
 
 .yAxis .tickLabel {
     text-align: right ! important;
-}
-
-#content {
-    width: 960px;
-    background: #FFFFFF;
-    margin: 30px auto 0px auto;
 }
 
 #logo {
@@ -78,15 +78,26 @@ body > header {
     padding: 50px;
 }
 
-#clog-graph {
+#wrapper {
+    padding: 30px;
+    position: relative;
+}
+
+#content {
+    background: #FFFFFF;
+    margin: 0px auto 0px auto;
     padding: 60px;
+    position: relative;
+    width: 960px;
+    height: 560px;
 }
 
-#clog-graph header {
-    padding: 40px;
+#content header {
+    margin: 40px;
+    position: relative;
 }
 
-#clog-graph header h1 {
+#content header > h1 {
     font: 100 32px Raleway, Helvetica Neue, Helvetica, sans-serif;
     letter-spacing: 3px;
     text-align: center;
@@ -95,15 +106,30 @@ body > header {
 #graph {
     width: 800px;
     height: 350px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0px auto 0px auto;
 }
 
 #graph-legend > table {
     margin: 40px auto 0px auto;
 }
 
+#settings-toggle {
+    /* TODO: This is off by 1px and will drive me insane. */
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 #settings {
-    float: right;
-    margin-top: -28px;
+    /* XXX: I don't actually know how to position this properly
+     *      within the parent container while still being padded */
+    background: #232323;
+    color: #DED9CD;
+    display: none;
+    position: absolute;
+    height: 620px;
+    margin: 30px;
+    top: 0px;
+    right: 0px;
+    padding: 30px;
 }

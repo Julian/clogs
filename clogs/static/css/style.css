@@ -8,13 +8,19 @@
 
 body {
     background: #D2D3D4;
-    font: 100 16px Raleway, Helvetica Neue, Helvetica, sans-serif;
+    font: 14px Helvetica Neue, Helvetica, sans-serif;
 }
 
 body > header {
     background: #33A6B2;
     color: #FFF;
     padding: 15px;
+}
+
+h1 {
+    font: 100 32px Raleway, Helvetica Neue, Helvetica, sans-serif;
+    letter-spacing: 3px;
+    text-align: center;
 }
 
 button {
@@ -34,7 +40,6 @@ button {
     border-color: #dddddd;
     border-width: 1px;
     border-style: solid;
-    font-family: Helvetica Neue, Helvetica, sans-serif;
     font-size: 13px;
     line-height: 13px;
     color: #969696;
@@ -59,9 +64,24 @@ button:active {
     color: #196674;
 }
 
+.slide {
+    font: 14px Helvetica Neue, Helvetica, sans-serif;
+    background: #FFFFFF;
+    position: relative;
+    margin: 0px auto 0px auto;
+    padding: 50px;
+    width: 960px;
+    height: 560px;
+}
+
+.slide > header {
+    margin: 40px;
+    position: relative;
+}
+
 .tickLabel,
 .legendLabel {
-    font: 11px Helvetica Neue, Helvetica, sans-serif;
+    font-size: 11px;
 }
 
 .legendLabel {
@@ -81,26 +101,6 @@ button:active {
 #wrapper {
     padding: 30px;
     position: relative;
-}
-
-#content {
-    background: #FFFFFF;
-    margin: 0px auto 0px auto;
-    padding: 60px;
-    position: relative;
-    width: 960px;
-    height: 560px;
-}
-
-#content header {
-    margin: 40px;
-    position: relative;
-}
-
-#content header > h1 {
-    font: 100 32px Raleway, Helvetica Neue, Helvetica, sans-serif;
-    letter-spacing: 3px;
-    text-align: center;
 }
 
 #graph {
@@ -127,9 +127,7 @@ button:active {
     color: #DED9CD;
     display: none;
     position: absolute;
-    height: 620px;
     margin: 30px;
     top: 0px;
     right: 0px;
-    padding: 30px;
 }
